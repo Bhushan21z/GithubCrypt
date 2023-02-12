@@ -9,6 +9,14 @@ import { shortenAddress } from "../utils/shortenAddress";
 
 const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, users }) => {
   // const gifUrl = useFetch({ keyword });
+  const { currentAccount, userAddress } = useContext(GithubContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    //ClaimAmount(id,amount,Issuer);
+    
+  };
 
   return (
     <div className="bg-[#181918] m-4 flex flex-1
@@ -50,6 +58,16 @@ const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status,
             </>
           )}
         </div>
+        { claimed ? 
+        (
+          <button type="button" className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer" >
+            Amount Recieved
+          </button>
+        ):(
+        <button type="button" onClick={handleSubmit} className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer" >
+            Requested
+        </button>
+        )}
       </div>
     </div>
   );
@@ -63,7 +81,7 @@ const MyCompletedIssues = () => {
       <div className="flex flex-col md:p-12 py-12 px-4">
         {currentAccount ? (
           <h3 className="text-white text-3xl text-center my-2">
-            My Completed Issues
+            My Solved Issues
           </h3>
         ) : (
           <h3 className="text-white text-3xl text-center my-2">

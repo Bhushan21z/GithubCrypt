@@ -21,9 +21,10 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, usersTrying }) => {
   // const gifUrl = useFetch({ keyword });
-  const { handleChange2, currentAccount, tryFormData, setTryformData, sendTryRequest, isLoading } = useContext(GithubContext);
+  const { handleChange2, currentAccount, tryFormData, setTryformData, sendTryRequest, isLoading, userAddress } = useContext(GithubContext);
   const i_d= id;
   //console.log(i_d);
+  console.log(currentAccount);
   
   const usertry= usersTrying.length;
   const handleSubmit = (e) => {
@@ -31,6 +32,7 @@ const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status,
     e.preventDefault();
 
     if (!tryusername ) return;
+  
     if (tryusername===username){
       alert("You cannot request your own issue");
       return;
@@ -38,6 +40,10 @@ const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status,
     const len= usersTrying.length;
     for(var i=0;i<len;i++){
       if (tryusername===usersTrying[i].username){
+        alert("You already trying this issue");
+        return;
+      }
+      if (userAddress===usersTrying[i].user){
         alert("You already trying this issue");
         return;
       }

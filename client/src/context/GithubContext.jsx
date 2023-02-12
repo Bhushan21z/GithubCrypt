@@ -26,6 +26,7 @@ export const TransactionsProvider = ({ children }) => {
   const [myIssues, setMyIssues] = useState([]);
   const [myTryingIssues, setMyTryingIssues] = useState([]);
   const [myCompletedIssues, setMyCompletedIssues] = useState([]);
+  const userAddress=ethereum.selectedAddress;
 
   const checkAdd = (add) => {
     if(add===emptyadd){
@@ -43,31 +44,42 @@ export const TransactionsProvider = ({ children }) => {
   };
 
   const getAllIssues = async () => {
+    console.log("function called");
     try {
       if (ethereum) {
         const githubContract = createEthereumContract();
 
-        const availableIssues = await githubContract.getAllIssues();
+        const availableAllIssues = await githubContract.getOpenIssues();
 
-        const structuredIssues = availableIssues.map((issue) => ({
-          id: parseInt(issue.idnum._hex, 16),
-          Issuer: issue.sender,
-          username : issue.username,
-          repourl : issue.repourl,
-          issue : issue.issue,
-          description : issue.desc,
-          amount: parseInt(issue.amount._hex) / (10 ** 18),
-          status : issue.status,
-          solvedUser : issue.solvedUser,
-          solvedUsername : issue.solvedUsername,
-          claimed : issue.claimed,
-          usersTrying : issue.users
-          //timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-        }));
-        //console.log(structuredIssues.id);
-        console.log(structuredIssues);
+        var len= availableAllIssues.length;
+        var structuredAllIssues=[];
+        for( var i= 0; i<len ; i++){
+          if(checkAdd(availableAllIssues[i].sender)){
+           break; 
+          }
+          else{
+            var dumm={
+              id: parseInt(availableAllIssues[i].idnum._hex, 16),
+              Issuer: availableAllIssues[i].sender,
+              username : availableAllIssues[i].username,
+              repourl : availableAllIssues[i].repourl,
+              issue : availableAllIssues[i].issue,
+              description : availableAllIssues[i].desc,
+              amount: parseInt(availableAllIssues[i].amount._hex) / (10 ** 18),
+              status : availableAllIssues[i].status,
+              solvedUser : availableAllIssues[i].solvedUser,
+              solvedUsername : availableAllIssues[i].solvedUsername,
+              claimed : availableAllIssues[i].claimed,
+              usersTrying : availableAllIssues[i].users
+              //timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
+            }
+            structuredAllIssues.push(dumm);
+          }
+        }
+        console.log(structuredAllIssues);
+        //console.log(structuredMyIssues);
 
-        setIssues(structuredIssues);
+        setIssues(structuredAllIssues);
       } else {
         console.log("Ethereum is not present");
       }
@@ -265,46 +277,6 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  // const sendTransaction = async () => {
-  //   try {
-  //     if (ethereum) {
-  //       const { addressTo, amount, keyword, message } = formData;
-  //       const transactionsContract = createEthereumContract();
-  //       const parsedAmount = ethers.utils.parseEther(amount);
-
-  //       await ethereum.request({
-  //         method: "eth_sendTransaction",
-  //         params: [{
-  //           from: currentAccount,
-  //           to: addressTo,
-  //           gas: "0x5208",
-  //           value: parsedAmount._hex,
-  //         }],
-  //       });
-
-  //       const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
-
-  //       setIsLoading(true);
-  //       console.log(`Loading - ${transactionHash.hash}`);
-  //       await transactionHash.wait();
-  //       console.log(`Success - ${transactionHash.hash}`);
-  //       setIsLoading(false);
-
-  //       const transactionsCount = await transactionsContract.getTransactionCount();
-
-  //       setTransactionCount(transactionsCount.toNumber());
-  //       window.location.reload();
-  //     } else {
-  //       console.log("No ethereum object");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-
-  //     throw new Error("No ethereum object");
-  //   }
-  // };
-
-
     const sendIssue = async () => {
     try {
       if (ethereum) {
@@ -364,6 +336,75 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
+  const MarkComplete = async (i_d, _username) => {
+    try {
+      if (ethereum) {
+        const issueContract = createEthereumContract();
+        const issueHash = await issueContract.MarkComplete(i_d,_username);
+        console.log(issueHash);
+        // setIsLoading(true);
+         console.log(`Loading - ${issueHash.hash}`);
+         await issueHash.wait();
+         console.log(`Success - ${issueHash.hash}`);
+        // setIsLoading(false);
+
+         const issueCount = await issueContract.getIssuesCount();
+
+         setIssueCount(issueCount.toNumber());
+         window.location.reload();
+      } else {
+        console.log("No ethereum object");
+      }
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("No ethereum object");
+    }
+  };
+
+    const ClaimAmount = async ( i_d , amount, toAddress ) => {
+    try {
+      if (ethereum) {
+        const transactionsContract = createEthereumContract();
+        console.log("created");
+        const parsedAmount = ethers.utils.parseEther(amount.toString());
+        console.log("passed");
+        console.log(toAddress);
+        console.log(i_d);
+        console.log(currentAccount);
+        await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [{
+            from: currentAccount,
+            to: toAddress,
+            gas: "0x5208",
+            value: parsedAmount._hex,
+          }],
+        });
+
+        const transactionHash = await transactionsContract.ClaimIssue(toAddress, i_d);
+
+        setIsLoading(true);
+        console.log(`Loading - ${transactionHash.hash}`);
+        await transactionHash.wait();
+        console.log(`Success - ${transactionHash.hash}`);
+        setIsLoading(false);
+
+        const issueCount = await transactionsContract.getIssuesCount();
+
+        setIssueCount(issueCount.toNumber());
+        window.location.reload();
+      } else {
+        console.log("No ethereum object");
+      }
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("No ethereum object");
+    }
+  };
+
+
   useEffect(() => {
     checkIfWalletIsConnect();
     checkIfIssuesExists();
@@ -382,12 +423,15 @@ export const TransactionsProvider = ({ children }) => {
         isLoading,
         sendIssue,
         sendTryRequest,
+        MarkComplete,
+        ClaimAmount,
         //sendTransaction,
         handleChange,
         handleChange2,
         formData,
         tryFormData,
-        setTryformData
+        setTryformData,
+        userAddress
       }}
     >
       {children}

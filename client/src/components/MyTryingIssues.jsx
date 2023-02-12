@@ -7,8 +7,25 @@ import useFetch from "../hooks/useFetch";
 //import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
 
-const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, users }) => {
+const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, usersTrying  }) => {
   // const gifUrl = useFetch({ keyword });
+  const { currentAccount, userAddress, MarkComplete } = useContext(GithubContext);
+  console.log(currentAccount);
+  const handleSubmit = (e) => {
+    //console.log(userAddress);
+    e.preventDefault();
+    const len= usersTrying .length;
+    for(var i=0;i<len;i++){
+      //console.log(usersTrying[i].user);
+      if (userAddress.toUpperCase()===usersTrying[i].user.toUpperCase()){
+        MarkComplete(id,usersTrying[i].username);
+        return;
+      }
+    }
+    console.log("mark complete not called");
+    
+    //sendTryRequest(i_d);
+  };
 
   return (
     <div className="bg-[#181918] m-4 flex flex-1
@@ -50,6 +67,9 @@ const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status,
             </>
           )}
         </div>
+        <button type="button" onClick={handleSubmit} className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer" >
+            Mark Complete
+        </button>
       </div>
     </div>
   );

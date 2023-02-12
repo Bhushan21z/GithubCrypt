@@ -9,6 +9,16 @@ import { shortenAddress } from "../utils/shortenAddress";
 
 const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, users }) => {
   // const gifUrl = useFetch({ keyword });
+  const { currentAccount, userAddress, ClaimAmount } = useContext(GithubContext);
+  const button2 = status && claimed;
+  const button1 = !claimed && status;
+  console.log(button1);
+  console.log(button2);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    ClaimAmount(id,amount,solvedUser);
+  };
 
   return (
     <div className="bg-[#181918] m-4 flex flex-1
@@ -50,6 +60,24 @@ const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status,
             </>
           )}
         </div>
+        { !claimed && status ? 
+        (
+          <button type="button" onClick={handleSubmit} className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer" >
+            Pay User
+          </button>
+        ):( <></>)}
+        { claimed && status ? 
+        (
+          <button type="button" className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer" >
+            Transaction Completed
+          </button>
+        ):( <></>)}
+        { !status ? 
+        (
+          <button type="button" className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer" >
+            Not Solved
+          </button>
+        ):( <></>)}
       </div>
     </div>
   );
