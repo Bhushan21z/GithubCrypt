@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 // import "hardhat/console.sol";
 
 contract Github {
-    uint256 issueCount;
+    uint issueCount;
 
     event Transfer(address from, address receiver, uint amount, string issue, string description);
 
@@ -17,7 +17,7 @@ contract Github {
     }
   
     struct IssuesStruct {
-        uint256 id;
+        uint idnum;
         address sender;
         string username;
         string repourl;
@@ -35,7 +35,7 @@ contract Github {
 
     function addIssue(string memory _username, string memory _repourl, string memory _issue, string memory _desc, uint _amount) public {
         IssuesStruct storage issue = issues[issueCount];
-        issue.id=issueCount;
+        issue.idnum=issueCount;
         issueCount += 1;
         issue.sender=msg.sender;
         issue.username=_username;
@@ -58,8 +58,8 @@ contract Github {
 
     function getMyIssues() public view returns (IssuesStruct[] memory) {
         IssuesStruct[] memory ret=new IssuesStruct[](issueCount);
-        uint256 it=0;
-        for(uint256 i = 0; i < issueCount; i++) {
+        uint it=0;
+        for(uint i = 0; i < issueCount; i++) {
             if(msg.sender==issues[i].sender){
                 ret[it]=issues[i];
                 it++;
@@ -70,8 +70,8 @@ contract Github {
 
     function getOpenIssues() public view returns (IssuesStruct[] memory) {
         IssuesStruct[] memory ret=new IssuesStruct[](issueCount);
-        uint256 it=0;
-        for(uint256 i = 0; i < issueCount; i++) {
+        uint it=0;
+        for(uint i = 0; i < issueCount; i++) {
             if(issues[i].status==false){
                 ret[it]=issues[i];
                 it++;
@@ -82,8 +82,8 @@ contract Github {
 
     function getClosedIssues() public view returns (IssuesStruct[] memory) {
         IssuesStruct[] memory ret=new IssuesStruct[](issueCount);
-        uint256 it=0;
-        for(uint256 i = 0; i < issueCount; i++) {
+        uint it=0;
+        for(uint i = 0; i < issueCount; i++) {
             if(issues[i].status==true){
                 ret[it]=issues[i];
                 it++;
@@ -92,11 +92,11 @@ contract Github {
         return ret;
     }
 
-    function requestIssue(uint256 _id, string memory _username) public {
+    function requestIssue(uint _id, string memory _username) public {
         issues[_id].users.push(TryingStruct(msg.sender,_username,false,false));
     }
 
-    function ClaimIssue(address payable receiver, uint256 _id) public {
+    function ClaimIssue(address payable receiver, uint _id) public {
         
         address Sender= issues[_id].sender;
         uint amt=issues[_id].amount;
@@ -104,13 +104,13 @@ contract Github {
         issues[_id].claimed=true;
     }
 
-    function MarkComplete(uint256 _id, string memory _username) public returns(bool) {
+    function MarkComplete(uint _id, string memory _username) public returns(bool) {
         issues[_id].status=true;
         issues[_id].solvedUsername=_username;
         issues[_id].solvedUser=msg.sender;
         uint len=issues[_id].users.length;
 
-        for(uint256 i=0; i < len; i++){
+        for(uint i=0; i < len; i++){
             if(msg.sender==issues[_id].users[i].user){
                 issues[_id].users[i].status=true;
                 return true;
@@ -124,7 +124,7 @@ contract Github {
         IssuesStruct[] memory ret=new IssuesStruct[](issueCount);
         uint it=0;
 
-        for(uint256 i=0; i < issueCount; i++){
+        for(uint i=0; i < issueCount; i++){
             if(msg.sender==issues[i].solvedUser){
                 ret[it]=issues[i];
                 it++;
@@ -137,12 +137,12 @@ contract Github {
         IssuesStruct[] memory ret=new IssuesStruct[](issueCount);
 
         uint it=0;
-        for(uint256 j=0;j<issueCount;j++){
+        for(uint j=0;j<issueCount;j++){
             uint len=issues[j].users.length;
-            if(issues[j].status==false){
+            if(issues[j].status==true){
                 continue;
             }
-            for(uint256 i=0; i < len; i++){
+            for(uint i=0; i < len; i++){
                 if(msg.sender==issues[j].users[i].user){
                     ret[it]=issues[j];
                     it++;
@@ -153,7 +153,7 @@ contract Github {
         return ret;
     }
 
-    function getIssuesCount() public view returns (uint256) {
+    function getIssuesCount() public view returns (uint) {
         return issueCount;
     }
 

@@ -1,13 +1,51 @@
 import React, { useContext } from "react";
+import {  useState } from "react";
 
 import { GithubContext } from "../context/GithubContext";
 
 import useFetch from "../hooks/useFetch";
 //import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
+import { Loader } from ".";
 
-const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, users }) => {
+const Input = ({ placeholder, name, type, value, handleChange }) => (
+  <input
+    placeholder={placeholder}
+    type={type}
+    // step="0.0001"
+    value={value}
+    onChange={(e) => handleChange(e, name)}
+    className="my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism"
+  />
+);
+
+const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, usersTrying }) => {
   // const gifUrl = useFetch({ keyword });
+  const { handleChange2, currentAccount, tryFormData, setTryformData, sendTryRequest, isLoading } = useContext(GithubContext);
+  const i_d= id;
+  //console.log(i_d);
+  
+  const usertry= usersTrying.length;
+  const handleSubmit = (e) => {
+    const { tryusername } = tryFormData;
+    e.preventDefault();
+
+    if (!tryusername ) return;
+    if (tryusername===username){
+      alert("You cannot request your own issue");
+      return;
+    }
+    const len= usersTrying.length;
+    for(var i=0;i<len;i++){
+      if (tryusername===usersTrying[i].username){
+        alert("You already trying this issue");
+        return;
+      }
+    }
+    console.log(tryFormData);
+    //sendIssue(); send try request
+    sendTryRequest(i_d);
+  };
 
   return (
     <div className="bg-[#181918] m-4 flex flex-1
@@ -48,15 +86,34 @@ const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status,
               <p className="text-white text-base">Issue Description: {desc}</p>
             </>
           )}
+            <>
+              <br />
+              <p className="text-white text-base">Users Trying: {usertry}</p>
+            </>
         </div>
+        {/* form code */}
+        <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
+            <Input placeholder="Github Username" name="tryusername" type="text" handleChange={handleChange2} />
+            <Input placeholder="Issue ID" value={i_d} name="tryid" type="hidden" handleChange={handleChange2} />
+            <div className="h-[1px] w-full bg-gray-400 my-2" />
+
+
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
+                >
+                  Send Request
+                </button>
+          </div>
+        
       </div>
     </div>
   );
 };
 
-const Transactions = () => {
+const Issues = () => {
   const { issues, currentAccount } = useContext(GithubContext);
-
   return (
     <div className="flex w-full justify-center items-center 2xl:px-20 gradient-bg-transactions">
       <div className="flex flex-col md:p-12 py-12 px-4">
@@ -71,7 +128,7 @@ const Transactions = () => {
         )}
 
         <div className="flex flex-wrap justify-center items-center mt-10">
-          {issues.reverse().map((issue, i) => (
+          {issues.map((issue, i) => (
             <IssueCard key={i} { ...issue} />
           ))}
         </div>
@@ -80,4 +137,4 @@ const Transactions = () => {
   );
 };
 
-export default Transactions;
+export default Issues;
