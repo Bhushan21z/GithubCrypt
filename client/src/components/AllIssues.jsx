@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
-import {  useState } from "react";
-
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
 import { GithubContext } from "../context/GithubContext";
-
-import useFetch from "../hooks/useFetch";
-//import dummyData from "../utils/dummyData";
-import { shortenAddress } from "../utils/shortenAddress";
-import { Loader } from ".";
-
+import { Grid } from "@mui/material";
+import { BsFillPersonFill } from "react-icons/bs";
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
     placeholder={placeholder}
@@ -19,31 +17,52 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
   />
 );
 
-const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status, solvedUser, solvedUsername, claimed, usersTrying }) => {
+const IssueCard = ({
+  id,
+  Issuer,
+  username,
+  repourl,
+  issue,
+  desc,
+  amount,
+  status,
+  solvedUser,
+  solvedUsername,
+  claimed,
+  usersTrying,
+}) => {
   // const gifUrl = useFetch({ keyword });
-  const { handleChange2, currentAccount, tryFormData, setTryformData, sendTryRequest, isLoading, userAddress } = useContext(GithubContext);
-  const i_d= id;
+  const {
+    handleChange2,
+    currentAccount,
+    tryFormData,
+    setTryformData,
+    sendTryRequest,
+    isLoading,
+    userAddress,
+  } = useContext(GithubContext);
+  const i_d = id;
   //console.log(i_d);
   console.log(currentAccount);
-  
-  const usertry= usersTrying.length;
+
+  const usertry = usersTrying.length;
   const handleSubmit = (e) => {
     const { tryusername } = tryFormData;
     e.preventDefault();
 
-    if (!tryusername ) return;
-  
-    if (tryusername===username){
+    if (!tryusername) return;
+
+    if (tryusername === username) {
       alert("You cannot request your own issue");
       return;
     }
-    const len= usersTrying.length;
-    for(var i=0;i<len;i++){
-      if (tryusername===usersTrying[i].username){
+    const len = usersTrying.length;
+    for (var i = 0; i < len; i++) {
+      if (tryusername === usersTrying[i].username) {
         alert("You already trying this issue");
         return;
       }
-      if (userAddress===usersTrying[i].user){
+      if (userAddress === usersTrying[i].user) {
         alert("You already trying this issue");
         return;
       }
@@ -54,92 +73,93 @@ const IssueCard = ({ id, Issuer, username, repourl, issue, desc, amount, status,
   };
 
   return (
-    <div className="bg-[#181918] m-4 flex flex-1
-      2xl:min-w-[450px]
-      2xl:max-w-[500px]
-      sm:min-w-[270px]
-      sm:max-w-[300px]
-      min-w-full
-      flex-col p-3 rounded-md hover:shadow-2xl"
+    <Card
+      sx={{
+        maxWidth: "380px",
+        minWidth: "380px",
+        width: "auto",
+        height: "auto",
+        border: "1.37039px solid rgba(147, 162, 211, 0.38)",
+        borderRadius: "20.937px",
+        boxShadow: "none",
+        p: "20px",
+        mx: {
+          xs: "20px",
+          sm: "0px",
+          md: "0px",
+        },
+      }}
     >
-      <div className="flex flex-col items-center w-full mt-3">
-        <div className="display-flex justify-start w-full mb-6 p-2">
-          <a href={`https://ropsten.etherscan.io/address/${Issuer}`} target="_blank" rel="noreferrer">
-            <p className="text-white text-base">From: {shortenAddress(Issuer)}</p>
-          </a>
-          <p className="text-white text-base">Amount: {amount} ETH</p>
-          {username && (
-            <>
-              <br />
-              <p className="text-white text-base">Github Username: {username}</p>
-            </>
-          )}
-          {repourl && (
-            <>
-              <br />
-              <p className="text-white text-base">Github Repo Url: {repourl}</p>
-            </>
-          )}
-          {issue && (
-            <>
-              <br />
-              <p className="text-white text-base">Github Issue: {issue}</p>
-            </>
-          )}
-          {desc && (
-            <>
-              <br />
-              <p className="text-white text-base">Issue Description: {desc}</p>
-            </>
-          )}
-            <>
-              <br />
-              <p className="text-white text-base">Users Trying: {usertry}</p>
-            </>
-        </div>
-        {/* form code */}
-        <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-            <Input placeholder="Github Username" name="tryusername" type="text" handleChange={handleChange2} />
-            <Input placeholder="Issue ID" value={i_d} name="tryid" type="hidden" handleChange={handleChange2} />
-            <div className="h-[1px] w-full bg-gray-400 my-2" />
-
-
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
-                >
-                  Send Request
-                </button>
-          </div>
-        
-      </div>
-    </div>
+      <CardMedia
+        sx={{ width: "auto", height: "70px", borderRadius: "10px" }}
+        image="https://cdn.dribbble.com/users/644659/screenshots/5940913/1_rewind_dribbble_live_ipad_4x.png?compress=1&resize=800x600"
+        title="green iguana"
+      />
+      <CardContent>
+        <Typography
+          sx={{
+            fontSize: "14px",
+            color: "black",
+            mb: "10px",
+          }}
+        >
+          <BsFillPersonFill /> {username}
+        </Typography>
+        <Grid
+          container
+          xs={12}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          <Typography gutterBottom variant="h5" component="div">
+            {issue}
+          </Typography>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 };
 
 const Issues = () => {
   const { issues, currentAccount } = useContext(GithubContext);
   return (
-    <div className="flex w-full justify-center items-center 2xl:px-20 gradient-bg-transactions">
-      <div className="flex flex-col md:p-12 py-12 px-4">
-        {currentAccount ? (
-          <h3 className="text-white text-3xl text-center my-2">
-            Latest Issues
-          </h3>
-        ) : (
-          <h3 className="text-white text-3xl text-center my-2">
-            Connect your account to see the latest Issues
-          </h3>
-        )}
-
-        <div className="flex flex-wrap justify-center items-center mt-10">
+    <Grid
+      container
+      xs={12}
+      sx={{
+        display: "flex",
+        height: "auto",
+        width: "100%",
+      }}
+    >
+      {currentAccount ? (
+        <Grid
+          item
+          xs={12}
+          sx={{
+            mt: "50px",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            rowGap: "30px",
+            columnGap: "50px",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {issues.map((issue, i) => (
-            <IssueCard key={i} { ...issue} />
+            <IssueCard key={i} {...issue} />
           ))}
-        </div>
-      </div>
-    </div>
+        </Grid>
+      ) : (
+        <h3 className="text-white text-3xl text-center my-2">
+          Connect your account to see the latest Issues
+        </h3>
+      )}
+    </Grid>
   );
 };
 

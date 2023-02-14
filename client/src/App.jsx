@@ -1,16 +1,27 @@
-import { Navbar, Welcome, Footer, Services, AllIssues, MyIssues, MyTryingIssues, MyCompletedIssues } from "./components";
+import {
+  Navbar,
+  Welcome,
+  Footer,
+  Services,
+  AllIssues,
+  MyIssues,
+  MyTryingIssues,
+  MyCompletedIssues,
+} from "./components";
+import Tabs from "./components/Tabs";
 
 const App = () => (
   <div className="min-h-screen">
-    <div className="gradient-bg-welcome">
+    <div className="bg-[#131516]">
       <Navbar />
       <Welcome />
     </div>
-    <Services />
-    <AllIssues />
+  
+    <Tabs />
+    {/* <AllIssues />
     <MyIssues />
     <MyTryingIssues />
-    <MyCompletedIssues />
+    <MyCompletedIssues /> */}
     <Footer />
   </div>
 );

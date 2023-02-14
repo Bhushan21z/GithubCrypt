@@ -7,6 +7,11 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/joy": "^5.0.0-alpha.66",
+    "@mui/lab": "^5.0.0-alpha.119",
+    "@mui/material": "^5.11.8",
     "@tailwindcss/forms": "^0.3.4",
     "autoprefixer": "^10.4.0",
     "eth-revert-reason": "^1.0.3",
