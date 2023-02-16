@@ -10,30 +10,42 @@ const { ethereum } = window;
 const createEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
-  const GithubContract = new ethers.Contract(contractAddress, contractABI, signer);
+  const GithubContract = new ethers.Contract(
+    contractAddress,
+    contractABI,
+    signer
+  );
 
   return GithubContract;
 };
 
 export const TransactionsProvider = ({ children }) => {
-  const emptyadd= "0x0000000000000000000000000000000000000000";
-  const [formData, setformData] = useState({ username: "",repourl: "", issue:"",desc:"" ,amount: "" });
+  const emptyadd = "0x0000000000000000000000000000000000000000";
+  const [formData, setformData] = useState({
+    username: "",
+    repourl: "",
+    issue: "",
+    desc: "",
+    amount: "",
+  });
   const [tryFormData, setTryformData] = useState({ tryusername: "" });
   const [currentAccount, setCurrentAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [issueCount, setIssueCount] = useState(localStorage.getItem("IssueCount"));
+  const [issueCount, setIssueCount] = useState(
+    localStorage.getItem("IssueCount")
+  );
   const [issues, setIssues] = useState([]);
   const [myIssues, setMyIssues] = useState([]);
   const [myTryingIssues, setMyTryingIssues] = useState([]);
   const [myCompletedIssues, setMyCompletedIssues] = useState([]);
-  const userAddress=ethereum.selectedAddress;
+  const userAddress = ethereum.selectedAddress;
 
   const checkAdd = (add) => {
-    if(add===emptyadd){
+    if (add === emptyadd) {
       return true;
     }
     return false;
-  }
+  };
 
   const handleChange = (e, name) => {
     setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
@@ -51,28 +63,27 @@ export const TransactionsProvider = ({ children }) => {
 
         const availableAllIssues = await githubContract.getOpenIssues();
 
-        var len= availableAllIssues.length;
-        var structuredAllIssues=[];
-        for( var i= 0; i<len ; i++){
-          if(checkAdd(availableAllIssues[i].sender)){
-           break; 
-          }
-          else{
-            var dumm={
+        var len = availableAllIssues.length;
+        var structuredAllIssues = [];
+        for (var i = 0; i < len; i++) {
+          if (checkAdd(availableAllIssues[i].sender)) {
+            break;
+          } else {
+            var dumm = {
               id: parseInt(availableAllIssues[i].idnum._hex, 16),
               Issuer: availableAllIssues[i].sender,
-              username : availableAllIssues[i].username,
-              repourl : availableAllIssues[i].repourl,
-              issue : availableAllIssues[i].issue,
-              description : availableAllIssues[i].desc,
-              amount: parseInt(availableAllIssues[i].amount._hex) / (10 ** 18),
-              status : availableAllIssues[i].status,
-              solvedUser : availableAllIssues[i].solvedUser,
-              solvedUsername : availableAllIssues[i].solvedUsername,
-              claimed : availableAllIssues[i].claimed,
-              usersTrying : availableAllIssues[i].users
+              username: availableAllIssues[i].username,
+              repourl: availableAllIssues[i].repourl,
+              issue: availableAllIssues[i].issue,
+              desc: availableAllIssues[i].desc,
+              amount: parseInt(availableAllIssues[i].amount._hex) / 10 ** 18,
+              status: availableAllIssues[i].status,
+              solvedUser: availableAllIssues[i].solvedUser,
+              solvedUsername: availableAllIssues[i].solvedUsername,
+              claimed: availableAllIssues[i].claimed,
+              usersTrying: availableAllIssues[i].users,
               //timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-            }
+            };
             structuredAllIssues.push(dumm);
           }
         }
@@ -96,28 +107,27 @@ export const TransactionsProvider = ({ children }) => {
 
         const availableMyIssues = await githubContract.getMyIssues();
 
-        var len= availableMyIssues.length;
-        var structuredMyIssues=[];
-        for( var i= 0; i<len ; i++){
-          if(checkAdd(availableMyIssues[i].sender)){
-           break; 
-          }
-          else{
-            var dumm={
+        var len = availableMyIssues.length;
+        var structuredMyIssues = [];
+        for (var i = 0; i < len; i++) {
+          if (checkAdd(availableMyIssues[i].sender)) {
+            break;
+          } else {
+            var dumm = {
               id: parseInt(availableMyIssues[i].idnum._hex, 16),
               Issuer: availableMyIssues[i].sender,
-              username : availableMyIssues[i].username,
-              repourl : availableMyIssues[i].repourl,
-              issue : availableMyIssues[i].issue,
-              description : availableMyIssues[i].desc,
-              amount: parseInt(availableMyIssues[i].amount._hex) / (10 ** 18),
-              status : availableMyIssues[i].status,
-              solvedUser : availableMyIssues[i].solvedUser,
-              solvedUsername : availableMyIssues[i].solvedUsername,
-              claimed : availableMyIssues[i].claimed,
-              usersTrying : availableMyIssues[i].users
+              username: availableMyIssues[i].username,
+              repourl: availableMyIssues[i].repourl,
+              issue: availableMyIssues[i].issue,
+              desc: availableMyIssues[i].desc,
+              amount: parseInt(availableMyIssues[i].amount._hex) / 10 ** 18,
+              status: availableMyIssues[i].status,
+              solvedUser: availableMyIssues[i].solvedUser,
+              solvedUsername: availableMyIssues[i].solvedUsername,
+              claimed: availableMyIssues[i].claimed,
+              usersTrying: availableMyIssues[i].users,
               //timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-            }
+            };
             structuredMyIssues.push(dumm);
           }
         }
@@ -131,7 +141,6 @@ export const TransactionsProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-    
   };
 
   const getMyTryingIssues = async () => {
@@ -140,30 +149,31 @@ export const TransactionsProvider = ({ children }) => {
       if (ethereum) {
         const githubContract = createEthereumContract();
 
-        const availableMyTryingIssues = await githubContract.getMyTryingIssues();
+        const availableMyTryingIssues =
+          await githubContract.getMyTryingIssues();
         console.log(availableMyTryingIssues);
-        var len= availableMyTryingIssues.length;
-        var structuredMyTryingIssues=[];
-        for( var i= 0; i<len ; i++){
-          if(checkAdd(availableMyTryingIssues[i].sender)){
-           break; 
-          }
-          else{
-            var dumm={
+        var len = availableMyTryingIssues.length;
+        var structuredMyTryingIssues = [];
+        for (var i = 0; i < len; i++) {
+          if (checkAdd(availableMyTryingIssues[i].sender)) {
+            break;
+          } else {
+            var dumm = {
               id: parseInt(availableMyTryingIssues[i].idnum._hex, 16),
               Issuer: availableMyTryingIssues[i].sender,
-              username : availableMyTryingIssues[i].username,
-              repourl : availableMyTryingIssues[i].repourl,
-              issue : availableMyTryingIssues[i].issue,
-              description : availableMyTryingIssues[i].desc,
-              amount: parseInt(availableMyTryingIssues[i].amount._hex) / (10 ** 18),
-              status : availableMyTryingIssues[i].status,
-              solvedUser : availableMyTryingIssues[i].solvedUser,
-              solvedUsername : availableMyTryingIssues[i].solvedUsername,
-              claimed : availableMyTryingIssues[i].claimed,
-              usersTrying : availableMyTryingIssues[i].users
+              username: availableMyTryingIssues[i].username,
+              repourl: availableMyTryingIssues[i].repourl,
+              issue: availableMyTryingIssues[i].issue,
+              desc: availableMyTryingIssues[i].desc,
+              amount:
+                parseInt(availableMyTryingIssues[i].amount._hex) / 10 ** 18,
+              status: availableMyTryingIssues[i].status,
+              solvedUser: availableMyTryingIssues[i].solvedUser,
+              solvedUsername: availableMyTryingIssues[i].solvedUsername,
+              claimed: availableMyTryingIssues[i].claimed,
+              usersTrying: availableMyTryingIssues[i].users,
               //timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-            }
+            };
             structuredMyTryingIssues.push(dumm);
           }
         }
@@ -177,7 +187,6 @@ export const TransactionsProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-    
   };
 
   const getMyCompletedIssues = async () => {
@@ -186,30 +195,31 @@ export const TransactionsProvider = ({ children }) => {
       if (ethereum) {
         const githubContract = createEthereumContract();
 
-        const availableMyCompletedIssues = await githubContract.getMyCompletedIssues();
+        const availableMyCompletedIssues =
+          await githubContract.getMyCompletedIssues();
         console.log(availableMyCompletedIssues);
-        var len= availableMyCompletedIssues.length;
-        var structuredMyCompletedIssues=[];
-        for( var i= 0; i<len ; i++){
-          if(checkAdd(availableMyCompletedIssues[i].sender)){
-           break; 
-          }
-          else{
-            var dumm={
+        var len = availableMyCompletedIssues.length;
+        var structuredMyCompletedIssues = [];
+        for (var i = 0; i < len; i++) {
+          if (checkAdd(availableMyCompletedIssues[i].sender)) {
+            break;
+          } else {
+            var dumm = {
               id: parseInt(availableMyCompletedIssues[i].idnum._hex, 16),
               Issuer: availableMyCompletedIssues[i].sender,
-              username : availableMyCompletedIssues[i].username,
-              repourl : availableMyCompletedIssues[i].repourl,
-              issue : availableMyCompletedIssues[i].issue,
-              description : availableMyCompletedIssues[i].desc,
-              amount: parseInt(availableMyCompletedIssues[i].amount._hex) / (10 ** 18),
-              status : availableMyCompletedIssues[i].status,
-              solvedUser : availableMyCompletedIssues[i].solvedUser,
-              solvedUsername : availableMyCompletedIssues[i].solvedUsername,
-              claimed : availableMyCompletedIssues[i].claimed,
-              usersTrying : availableMyCompletedIssues[i].users
+              username: availableMyCompletedIssues[i].username,
+              repourl: availableMyCompletedIssues[i].repourl,
+              issue: availableMyCompletedIssues[i].issue,
+              desc: availableMyCompletedIssues[i].desc,
+              amount:
+                parseInt(availableMyCompletedIssues[i].amount._hex) / 10 ** 18,
+              status: availableMyCompletedIssues[i].status,
+              solvedUser: availableMyCompletedIssues[i].solvedUser,
+              solvedUsername: availableMyCompletedIssues[i].solvedUsername,
+              claimed: availableMyCompletedIssues[i].claimed,
+              usersTrying: availableMyCompletedIssues[i].users,
               //timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-            }
+            };
             structuredMyCompletedIssues.push(dumm);
           }
         }
@@ -223,7 +233,6 @@ export const TransactionsProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-    
   };
 
   const checkIfWalletIsConnect = async () => {
@@ -266,7 +275,9 @@ export const TransactionsProvider = ({ children }) => {
     try {
       if (!ethereum) return alert("Please install MetaMask.");
 
-      const accounts = await ethereum.request({ method: "eth_requestAccounts", });
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
 
       setCurrentAccount(accounts[0]);
       window.location.reload();
@@ -277,14 +288,20 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-    const sendIssue = async () => {
+  const sendIssue = async () => {
     try {
       if (ethereum) {
         const { username, repourl, issue, desc, amount } = formData;
         const issueContract = createEthereumContract();
         const parsedAmount = ethers.utils.parseEther(amount);
 
-        const issueHash = await issueContract.addIssue(username, repourl, issue, desc, parsedAmount);
+        const issueHash = await issueContract.addIssue(
+          username,
+          repourl,
+          issue,
+          desc,
+          parsedAmount
+        );
 
         setIsLoading(true);
         console.log(`Loading - ${issueHash.hash}`);
@@ -314,18 +331,18 @@ export const TransactionsProvider = ({ children }) => {
         //console.log(tryusername);
         const issueContract = createEthereumContract();
         //const user_name="checking function";
-        const issueHash = await issueContract.requestIssue(i_d,tryusername);
+        const issueHash = await issueContract.requestIssue(i_d, tryusername);
 
         // setIsLoading(true);
-         console.log(`Loading - ${issueHash.hash}`);
-         await issueHash.wait();
-         console.log(`Success - ${issueHash.hash}`);
+        console.log(`Loading - ${issueHash.hash}`);
+        await issueHash.wait();
+        console.log(`Success - ${issueHash.hash}`);
         // setIsLoading(false);
 
-         const issueCount = await issueContract.getIssuesCount();
+        const issueCount = await issueContract.getIssuesCount();
 
-         setIssueCount(issueCount.toNumber());
-         window.location.reload();
+        setIssueCount(issueCount.toNumber());
+        window.location.reload();
       } else {
         console.log("No ethereum object");
       }
@@ -340,18 +357,18 @@ export const TransactionsProvider = ({ children }) => {
     try {
       if (ethereum) {
         const issueContract = createEthereumContract();
-        const issueHash = await issueContract.MarkComplete(i_d,_username);
+        const issueHash = await issueContract.MarkComplete(i_d, _username);
         console.log(issueHash);
         // setIsLoading(true);
-         console.log(`Loading - ${issueHash.hash}`);
-         await issueHash.wait();
-         console.log(`Success - ${issueHash.hash}`);
+        console.log(`Loading - ${issueHash.hash}`);
+        await issueHash.wait();
+        console.log(`Success - ${issueHash.hash}`);
         // setIsLoading(false);
 
-         const issueCount = await issueContract.getIssuesCount();
+        const issueCount = await issueContract.getIssuesCount();
 
-         setIssueCount(issueCount.toNumber());
-         window.location.reload();
+        setIssueCount(issueCount.toNumber());
+        window.location.reload();
       } else {
         console.log("No ethereum object");
       }
@@ -362,7 +379,7 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-    const ClaimAmount = async ( i_d , amount, toAddress ) => {
+  const ClaimAmount = async (i_d, amount, toAddress) => {
     try {
       if (ethereum) {
         const transactionsContract = createEthereumContract();
@@ -374,15 +391,20 @@ export const TransactionsProvider = ({ children }) => {
         console.log(currentAccount);
         await ethereum.request({
           method: "eth_sendTransaction",
-          params: [{
-            from: currentAccount,
-            to: toAddress,
-            gas: "0x5208",
-            value: parsedAmount._hex,
-          }],
+          params: [
+            {
+              from: currentAccount,
+              to: toAddress,
+              gas: "0x5208",
+              value: parsedAmount._hex,
+            },
+          ],
         });
 
-        const transactionHash = await transactionsContract.ClaimIssue(toAddress, i_d);
+        const transactionHash = await transactionsContract.ClaimIssue(
+          toAddress,
+          i_d
+        );
 
         setIsLoading(true);
         console.log(`Loading - ${transactionHash.hash}`);
@@ -403,7 +425,6 @@ export const TransactionsProvider = ({ children }) => {
       throw new Error("No ethereum object");
     }
   };
-
 
   useEffect(() => {
     checkIfWalletIsConnect();
@@ -431,7 +452,7 @@ export const TransactionsProvider = ({ children }) => {
         formData,
         tryFormData,
         setTryformData,
-        userAddress
+        userAddress,
       }}
     >
       {children}

@@ -29,30 +29,41 @@ export default function Tabs() {
       container
       xs={12}
       sx={{
-        width: "100%",
         bgcolor: "#131516",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        minHeight: "100vh",
+        height: "auto",
       }}
     >
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Grid
+          container
+          xs={12}
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            justifyContent: "center",
+            p: "10px",
+            alignItems: "center",
+            mt: "150px",
+          }}
+        >
           <TabList
             onChange={handleChange}
             sx={{
               backgroundColor: "#3a3f43",
               p: "10px",
               borderRadius: "20px",
-              width: "100%",
+              width: "auto",
             }}
           >
             <Tab label="Latest Issues" value="1" sx={styles.text} />
             <Tab label="My Issues" value="2" sx={styles.text} />
             <Tab label="Trying Issues" value="3" sx={styles.text} />
-            <Tab label="Completed Issues" sx={styles.text} />
+            <Tab label="Completed Issues" value="4" sx={styles.text} />
           </TabList>
-        </Box>
+        </Grid>
         <TabPanel value="1">
           <Issues />
         </TabPanel>

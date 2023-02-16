@@ -5,7 +5,7 @@ import { GithubContext } from "../context/GithubContext";
 import logo from "../../images/logo.png";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { shortenAddress } from "../utils/shortenAddress";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 const NavBarItem = ({ title, classprops }) => (
   <li className={`mx-4 cursor-pointer ${classprops}`}>{title}</li>
 );
@@ -22,7 +22,7 @@ const Navbar = () => {
   } = useContext(GithubContext);
 
   return (
-    <nav className="w-full flex  items-center justify-between items-center p-4">
+    <nav className="w-full flex  items-center justify-between items-center px-4 py-4   ">
       <div className="md:flex-[0.5] flex-initial justify-center items-center">
         <h1 className="text-white font-semibold text-4xl">GithubCrypt</h1>
       </div>
