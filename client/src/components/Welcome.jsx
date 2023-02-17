@@ -6,8 +6,6 @@ import { GithubContext } from "../context/GithubContext";
 import { shortenAddress } from "../utils/shortenAddress";
 import { Loader } from ".";
 import { Grid, Typography } from "@mui/material";
-const companyCommonStyles =
-  "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
@@ -16,7 +14,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
     step="0.0001"
     value={value}
     onChange={(e) => handleChange(e, name)}
-    className="my-2 w-full rounded-md p-3 outline-none bg-[#3a3f43] text-black border-none text-sm "
+    className="my-2 w-full rounded-md p-3 outline-none bg-[#3a3f43] text-white border-none text-sm "
   />
 );
 

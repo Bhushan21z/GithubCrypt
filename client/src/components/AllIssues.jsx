@@ -9,6 +9,8 @@ import StarIcon from "@mui/icons-material/Star";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import PaidIcon from "@mui/icons-material/Paid";
 import { Button } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
     placeholder={placeholder}
@@ -57,7 +59,7 @@ const IssueCard = ({
     if (!tryusername) return;
 
     if (tryusername === username) {
-      alert("You cannot request your own issue");
+      alert("You can't try your own issue");
       return;
     }
     const len = usersTrying.length;

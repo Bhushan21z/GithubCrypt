@@ -24,7 +24,22 @@ const Navbar = () => {
   return (
     <nav className="w-full flex  items-center justify-between items-center px-4 py-4   ">
       <div className="md:flex-[0.5] flex-initial justify-center items-center">
-        <h1 className="text-white font-semibold text-4xl">GithubCrypt</h1>
+        <Typography
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            fontSize: "2rem",
+            color:"white"
+          }}
+        >
+          <FaGithubAlt
+            style={{
+              marginTop: "7px",
+              marginRight: "5px",
+            }}
+          />{" "}
+          GithubCrypt
+        </Typography>
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
         <Typography
