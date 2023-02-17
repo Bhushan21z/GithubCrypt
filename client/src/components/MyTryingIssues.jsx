@@ -1,15 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 // import { MyIssues } from ".";
 
 import { GithubContext } from "../context/GithubContext";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import PaidIcon from "@mui/icons-material/Paid";
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, Button } from "@mui/material";
 import { CardActions, Divider, Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import useFetch from "../hooks/useFetch";
 //import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
+import axios from "axios";
+
+const Input = ({ placeholder, name, type, value, handleChange }) => (
+  <input
+    placeholder={placeholder}
+    type={type}
+    // step="0.0001"
+    value={value}
+    onChange={(e) => handleChange(e, name)}
+    className="my-2 rounded-sm p-2  bg-transparent text-black  text-sm"
+  />
+);
 
 const IssueCard = ({
   id,
@@ -25,24 +37,96 @@ const IssueCard = ({
   claimed,
   usersTrying,
 }) => {
-  // const gifUrl = useFetch({ keyword });
-  const { currentAccount, userAddress, MarkComplete } =
-    useContext(GithubContext);
-  console.log(currentAccount);
-  const handleSubmit = (e) => {
-    //console.log(userAddress);
-    e.preventDefault();
-    const len = usersTrying.length;
-    for (var i = 0; i < len; i++) {
-      //console.log(usersTrying[i].user);
-      if (userAddress.toUpperCase() === usersTrying[i].user.toUpperCase()) {
-        MarkComplete(id, usersTrying[i].username);
+
+  ///// Latest Issue
+  // // const gifUrl = useFetch({ keyword });
+  // const { currentAccount, userAddress, MarkComplete } =
+  //   useContext(GithubContext);
+  // console.log(currentAccount);
+  // const handleSubmit = (e) => {
+  //   //console.log(userAddress);
+  //   e.preventDefault();
+  //   const len = usersTrying.length;
+  //   for (var i = 0; i < len; i++) {
+  //     //console.log(usersTrying[i].user);
+  //     if (userAddress.toUpperCase() === usersTrying[i].user.toUpperCase()) {
+  //       MarkComplete(id, usersTrying[i].username);
+  //       return;
+  //     }
+  //   }
+  //   console.log("mark complete not called");
+
+  //   //sendTryRequest(i_d);
+
+
+
+  ////// OLd code
+
+  const { currentAccount, userAddress, MarkComplete } = useContext(GithubContext);
+  console.log("hehe");
+  const [prno, setPrno] = useState(0);
+  const [state, setState] = useState("");
+  const [title, setTitle] = useState("");
+  const [user, setUser] = useState("");
+  const handleChange = (e, name) => {
+    //setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
+    setPrno(e.target.value);
+  };
+
+  const anotherfunc = (state,title,user) =>{
+    const len= usersTrying .length;
+  for(var i=0;i<len;i++){
+    if (userAddress.toUpperCase()===usersTrying[i].user.toUpperCase()){
+      //console.log(usersTrying[i].username.slice(1,11));
+      if(state=="closed" && status==false){
+        if(user==usersTrying[i].username.slice(1,11)){
+          if(title==issue){
+            //alert("MARK COMPLETE");
+            MarkComplete(id,usersTrying[i].username);
+          }
+          else{
+            alert("Error : Issue Title did not matched");
+            return;
+          }
+        }
+        else{
+          alert("Error : Username did not Matched with your username");
+          return;
+        }
+      }
+      else{
+        alert("Error : Status is Open");
         return;
       }
+      //MarkComplete(id,usersTrying[i].username);
+      return;
     }
-    console.log("mark complete not called");
+  }
+  }
 
-    //sendTryRequest(i_d);
+  const handleSubmit = async (e) => {
+    console.log(prno);
+    //////////
+    // https://github.com/Bhushan21z/testrepo
+    const repo = repourl.slice(19,);
+    console.log(repo);
+    await axios.get(`https://api.github.com/repos/${repo}/pulls/${prno}`)
+    .then(response => {
+      console.log(response.data);
+      setState(response.data.state);
+      setTitle(response.data.title);
+      setUser(response.data.user.login);
+      console.log(state,title,user);
+      anotherfunc(state,title,user);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+    /////////
+    // e.preventDefault();
+    console.log("mark complete not called");
+  
   };
 
   return (
@@ -178,17 +262,36 @@ Button */}
         <Divider sx={{ mt: "10px", backgroundColor: "white" }} />
       </CardContent>
 
+
       <CardActions>
         <Grid
           container
           xs={12}
           sx={{
             width: "100%",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Button variant="contained" onClick={handleSubmit}>
+          {/* <Typography variant="body2" color="white">
+            Try this issue
+          </Typography> */}
+          <Input
+            placeholder="Pull Request No"
+            name="prno"
+            type="number"
+            handleChange={handleChange}
+          />
+          <Button
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: "#fff",
+              color: "black",
+              borderRadius: "5px",
+              padding: "5px",
+              fontSize: "14px",
+            }}
+          >
             Mark Complete
           </Button>
         </Grid>
