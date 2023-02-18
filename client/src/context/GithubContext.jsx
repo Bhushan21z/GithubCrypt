@@ -333,11 +333,11 @@ export const TransactionsProvider = ({ children }) => {
         //const user_name="checking function";
         const issueHash = await issueContract.requestIssue(i_d, tryusername);
 
-        // setIsLoading(true);
+        setIsLoading(true);
         console.log(`Loading - ${issueHash.hash}`);
         await issueHash.wait();
         console.log(`Success - ${issueHash.hash}`);
-        // setIsLoading(false);
+        setIsLoading(false);
 
         const issueCount = await issueContract.getIssuesCount();
 
@@ -359,11 +359,11 @@ export const TransactionsProvider = ({ children }) => {
         const issueContract = createEthereumContract();
         const issueHash = await issueContract.MarkComplete(i_d, _username);
         console.log(issueHash);
-        // setIsLoading(true);
+        setIsLoading(true);
         console.log(`Loading - ${issueHash.hash}`);
         await issueHash.wait();
         console.log(`Success - ${issueHash.hash}`);
-        // setIsLoading(false);
+        setIsLoading(false);
 
         const issueCount = await issueContract.getIssuesCount();
 
