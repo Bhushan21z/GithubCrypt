@@ -118,9 +118,9 @@ const Welcome = () => {
             handleChange={handleChange}
           />
 
-          {isLoading ? (
+          {/* {isLoading ? (
             <Loader />
-          ) : (
+          ) : ( */}
             <button
               type="button"
               onClick={handleSubmit}
@@ -128,7 +128,7 @@ const Welcome = () => {
             >
               Post Issue
             </button>
-          )}
+          {/* )} */}
         </Grid>
       </Grid>
     </Grid>

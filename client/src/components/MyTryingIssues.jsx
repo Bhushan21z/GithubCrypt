@@ -65,9 +65,9 @@ const IssueCard = ({
   const { currentAccount, userAddress, MarkComplete } = useContext(GithubContext);
   console.log("hehe");
   const [prno, setPrno] = useState(0);
-  const [state, setState] = useState("");
-  const [title, setTitle] = useState("");
-  const [user, setUser] = useState("");
+  // const [state, setState] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [user, setUser] = useState("");
   const handleChange = (e, name) => {
     //setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
     setPrno(e.target.value);
@@ -113,11 +113,11 @@ const IssueCard = ({
     await axios.get(`https://api.github.com/repos/${repo}/pulls/${prno}`)
     .then(response => {
       console.log(response.data);
-      setState(response.data.state);
-      setTitle(response.data.title);
-      setUser(response.data.user.login);
-      console.log(state,title,user);
-      anotherfunc(state,title,user);
+      // setState(response.data.state);
+      // setTitle(response.data.title);
+      // setUser(response.data.user.login);
+      // console.log(state,title,user);
+      anotherfunc(response.data.state,response.data.title,response.data.user.login);
     })
     .catch(error => {
         console.log(error);
