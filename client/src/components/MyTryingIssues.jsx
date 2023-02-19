@@ -241,7 +241,7 @@ Button */}
             Description
           </Typography>
           {/* {desc} */}
-          lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
+          {desc.slice(0,150)} ....read more
         </Typography>
 
         <Grid

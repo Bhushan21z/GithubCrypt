@@ -85,7 +85,7 @@ const Welcome = () => {
           }}
         >
           <h1 className="text-white font-semibold text-2xl mb-5">
-            Post an Issue
+            Post a Github Issue
           </h1>
           <Input
             placeholder="Github Username"
@@ -94,19 +94,19 @@ const Welcome = () => {
             handleChange={handleChange}
           />
           <Input
-            placeholder="Repo Url"
+            placeholder="Repository link"
             name="repourl"
             type="text"
             handleChange={handleChange}
           />
           <Input
-            placeholder="Enter Exact Issue"
+            placeholder="Enter Exact Issue title"
             name="issue"
             type="text"
             handleChange={handleChange}
           />
           <Input
-            placeholder="Enter Description"
+            placeholder="Enter Issue Description"
             name="desc"
             type="text"
             handleChange={handleChange}
@@ -126,7 +126,7 @@ const Welcome = () => {
               onClick={handleSubmit}
               className="text-white  mt-2 border-[1px] p-2 border-white hover:bg-[#3d4f7c] rounded-md cursor-pointer"
             >
-              Post Issue
+              Submit Issue
             </button>
           {/* )} */}
         </Grid>

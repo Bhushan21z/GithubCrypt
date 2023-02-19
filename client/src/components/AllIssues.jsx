@@ -49,7 +49,7 @@ const IssueCard = ({
   const i_d = id;
   //console.log(i_d);
   console.log(currentAccount);
-
+  console.log(usersTrying.length);
   const usertry = usersTrying.length;
 
   const handleSubmit = (e) => {
@@ -68,7 +68,7 @@ const IssueCard = ({
         alert("You already trying this issue");
         return;
       }
-      if (userAddress === usersTrying[i].user) {
+      if (currentAccount === usersTrying[i].user) {
         alert("You already trying this issue");
         return;
       }
@@ -189,8 +189,8 @@ Button */}
           >
             Description
           </Typography>
-          {/* {desc} */}
-          lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
+          {desc.slice(0,150)} ....read more
+          {/* lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla */}
         </Typography>
 
         <Grid
@@ -223,9 +223,9 @@ Button */}
             alignItems: "center",
           }}
         >
-          <Typography variant="body2" color="white">
+          {/* <Typography variant="body2" color="white">
             Try this issue
-          </Typography>
+          </Typography> */}
           <Input
             placeholder="Username"
             name="tryusername"
