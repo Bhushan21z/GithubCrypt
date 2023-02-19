@@ -186,15 +186,18 @@ const IssueCard = ({
             <></>
           )}
           {claimed && status ? (
-            <Typography color="white" fontSize="14px">
-              Status: Transaction Complete
+            // <Typography color="white" fontSize="14px">
+            //   Status: Transaction Complete
+            // </Typography>
+            <Typography color="white" fontSize="20px" fontWeight="bold">
+              Transaction Complete
             </Typography>
           ) : (
             <></>
           )}
           {!status ? (
-            <Typography color="white" fontSize="14px">
-              Status: Not Solved
+            <Typography color="white" fontSize="20px" fontWeight="bold">
+              Not Solved
             </Typography>
           ) : (
             <></>
@@ -322,7 +325,7 @@ const MyIssues = () => {
         </Grid>
       ) : (
         <h3 className="text-white text-3xl text-center my-2">
-          Connect your account to see the latest Issues
+          Connect your account to see your Issues
         </h3>
       )}
     </Grid>

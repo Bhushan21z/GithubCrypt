@@ -46,7 +46,7 @@ export default function Tabs() {
             justifyContent: "center",
             p: "10px",
             alignItems: "center",
-            mt: "150px",
+           
           }}
         >
           <TabList

@@ -2,24 +2,13 @@ import React, { useContext } from "react";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { FaGithubAlt } from "react-icons/fa";
 import { GithubContext } from "../context/GithubContext";
-import logo from "../../images/logo.png";
+import metamask from "../Assets/metamask.png";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { shortenAddress } from "../utils/shortenAddress";
-import { Divider, Typography } from "@mui/material";
-const NavBarItem = ({ title, classprops }) => (
-  <li className={`mx-4 cursor-pointer ${classprops}`}>{title}</li>
-);
+import { Button, Divider, Typography } from "@mui/material";
 
 const Navbar = () => {
-  const [toggleMenu, setToggleMenu] = React.useState(false);
-  const {
-    currentAccount,
-    connectWallet,
-    handleChange,
-    sendIssue,
-    formData,
-    isLoading,
-  } = useContext(GithubContext);
+  const { currentAccount, connectWallet } = useContext(GithubContext);
 
   return (
     <nav className="w-full flex  items-center justify-between items-center px-4 py-4   ">
@@ -30,6 +19,8 @@ const Navbar = () => {
             flexDirection: "row",
             fontSize: "2rem",
             color: "white",
+            ml: "3rem",
+            fontFamily: "Righteous",
           }}
         >
           <FaGithubAlt
@@ -45,13 +36,17 @@ const Navbar = () => {
         {currentAccount && (
           <Typography
             sx={{
-              color: "black",
+              color: "white",
               fontSize: "20px",
-              backgroundColor: "#E9ECEF",
               borderRadius: "0.5rem",
               padding: "0.5rem",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              border: "1px solid white",
             }}
           >
+            <img src={metamask} alt="metamask" className="w-6 h-6 mr-2" />
             {shortenAddress(currentAccount)}
           </Typography>
         )}
@@ -60,7 +55,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={connectWallet}
-            className="flex flex-row justify-center items-center  m-5 p-3 rounded-md cursor-pointer"
+            className="flex flex-row justify-center items-center  mx-5 my-2 p-3 rounded-md cursor-pointer border-2 border-white "
           >
             <AiFillPlayCircle className="text-white mr-2" />
             <p className="text-white text-base font-semibold">Connect Wallet</p>

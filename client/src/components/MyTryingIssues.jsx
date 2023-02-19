@@ -324,26 +324,43 @@ const MyTryingIssues = () => {
     >
       {currentAccount ? (
         <Grid
-          item
+          container
           xs={12}
           sx={{
-            mt: "50px",
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            rowGap: "30px",
-            columnGap: "50px",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          {myTryingIssues.map((issue, i) => (
-            <IssueCard key={i} {...issue} />
-          ))}
+          <Typography
+            sx={{ fontSize: "16px", textAlign: "center", color: "white" }}
+          >
+            Solve the Issue and send Pull Request. Once the Pull Request is
+            merged,mention the Pull Request Number in the form and click on Mark
+            Complete.
+          </Typography>
+
+          <Grid
+            item
+            xs={12}
+            sx={{
+              mt: "50px",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              rowGap: "30px",
+              columnGap: "50px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {myTryingIssues.map((issue, i) => (
+              <IssueCard key={i} {...issue} />
+            ))}
+          </Grid>
         </Grid>
       ) : (
         <h3 className="text-white text-3xl text-center my-2">
-          Connect your account to see the latest Issues
+          Connect your account to see your Trying Issues
         </h3>
       )}
     </Grid>

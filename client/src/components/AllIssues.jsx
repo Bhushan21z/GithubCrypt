@@ -10,8 +10,8 @@ import AddLinkIcon from "@mui/icons-material/AddLink";
 import PaidIcon from "@mui/icons-material/Paid";
 import { Button, Link } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import axios from "axios";
+
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
     placeholder={placeholder}
@@ -22,30 +22,6 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
     className="my-2 rounded-sm p-2  bg-transparent text-white  text-sm"
   />
 );
-
-// const tags = () => {
-//   const [tags, setTags] = useState([]);
-//   const [isError, setIsError] = useState("");
-//   const repo = repourl.slice(19);
-
-//   // using Async Await
-//   const getTags = async () => {
-//     await axios
-//       .get(`https://api.github.com/repos/${repo}`)
-//       .then((response) => {
-//         console.log(response.data);
-//         setTags(response.data.topics);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-
-//   // NOTE:  calling the function
-//   useEffect(() => {
-//     getTags();
-//   }, []);
-// };
 
 const IssueCard = ({
   id,
@@ -341,7 +317,7 @@ const Issues = () => {
         </Grid>
       ) : (
         <h3 className="text-white text-3xl text-center my-2">
-          Connect your account to see the latest Issues
+          Connect your account to see the Latest Issues
         </h3>
       )}
     </Grid>

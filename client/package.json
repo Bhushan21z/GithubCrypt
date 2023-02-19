@@ -22,7 +22,8 @@
     "postcss": "^8.3.11",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-icons": "^4.3.1"
+    "react-icons": "^4.3.1",
+    "react-lottie": "^1.2.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.0",

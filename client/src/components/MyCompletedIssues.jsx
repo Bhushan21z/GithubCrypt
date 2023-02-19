@@ -226,7 +226,7 @@ const MyCompletedIssues = () => {
         </Grid>
       ) : (
         <h3 className="text-white text-3xl text-center my-2">
-          Connect your account to see the latest Issues
+          Connect your account to see the your Completed Issues
         </h3>
       )}
     </Grid>
