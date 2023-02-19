@@ -6,7 +6,7 @@ import { shortenAddress } from "../utils/shortenAddress";
 // import { MyIssues } from ".";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import PaidIcon from "@mui/icons-material/Paid";
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, Link } from "@mui/material";
 import { CardActions, Divider, Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 const IssueCard = ({
@@ -61,15 +61,6 @@ const IssueCard = ({
         title="green iguana"
       />
       <CardContent>
-        {/* Url
-Username
-Issue title
-Desc.
-Amount
-Users trying
-
-Form
-Button */}
         <Grid
           container
           xs={12}
@@ -113,22 +104,21 @@ Button */}
           </Typography>
         </Grid>
 
-        <Typography
-          color="#78bbe7"
-          sx={{
-            fontsize: "14px",
-            textDecoration: "underline",
-          }}
-        >
-          <AddLinkIcon
+        <Link href={repourl} target="_blank">
+          <Typography
             sx={{
-              fontSize: "25px",
-              mr: "5px",
-              color: "#78bbe7",
+              fontsize: "14px",
             }}
-          />
-          {repourl.slice(19)}
-        </Typography>
+          >
+            <AddLinkIcon
+              sx={{
+                fontSize: "25px",
+                mr: "5px",
+              }}
+            />
+            {repourl.slice(19)}
+          </Typography>
+        </Link>
         <Typography
           color="white"
           sx={{
@@ -148,7 +138,12 @@ Button */}
             Description
           </Typography>
           {/* {desc} */}
-          {desc.slice(0,150)} ....read more
+          {desc.slice(0, 150)} ....
+          <Link href={`${repourl}/issues`} target="_blank">
+            <Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+              Read More
+            </Typography>
+          </Link>
         </Typography>
 
         <Grid

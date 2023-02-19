@@ -4,7 +4,14 @@ import React, { useContext, useState } from "react";
 import { GithubContext } from "../context/GithubContext";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import PaidIcon from "@mui/icons-material/Paid";
-import { Card, CardContent, CardMedia, Typography, Button } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+  Link,
+} from "@mui/material";
 import { CardActions, Divider, Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import useFetch from "../hooks/useFetch";
@@ -19,7 +26,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
     // step="0.0001"
     value={value}
     onChange={(e) => handleChange(e, name)}
-    className="my-2 rounded-sm p-2  bg-transparent text-black  text-sm"
+    className="my-2 rounded-sm p-1  bg-transparent text-white  text-sm"
   />
 );
 
@@ -37,7 +44,6 @@ const IssueCard = ({
   claimed,
   usersTrying,
 }) => {
-
   ///// Latest Issue
   // // const gifUrl = useFetch({ keyword });
   // const { currentAccount, userAddress, MarkComplete } =
@@ -58,11 +64,10 @@ const IssueCard = ({
 
   //   //sendTryRequest(i_d);
 
-
-
   ////// OLd code
 
-  const { currentAccount, userAddress, MarkComplete } = useContext(GithubContext);
+  const { currentAccount, userAddress, MarkComplete } =
+    useContext(GithubContext);
   console.log("hehe");
   const [prno, setPrno] = useState(0);
   // const [state, setState] = useState("");
@@ -73,60 +78,61 @@ const IssueCard = ({
     setPrno(e.target.value);
   };
 
-  const anotherfunc = (state,title,user) =>{
-    const len= usersTrying .length;
-  for(var i=0;i<len;i++){
-    if (userAddress.toUpperCase()===usersTrying[i].user.toUpperCase()){
-      //console.log(usersTrying[i].username.slice(1,11));
-      if(state=="closed" && status==false){
-        if(user==usersTrying[i].username.slice(1,11)){
-          if(title==issue){
-            //alert("MARK COMPLETE");
-            MarkComplete(id,usersTrying[i].username);
-          }
-          else{
-            alert("Error : Issue Title did not matched");
+  const anotherfunc = (state, title, user) => {
+    const len = usersTrying.length;
+    for (var i = 0; i < len; i++) {
+      if (userAddress.toUpperCase() === usersTrying[i].user.toUpperCase()) {
+        console.log(usersTrying[i].username);
+        if (state == "closed" && status == false) {
+          if (user == usersTrying[i].username) {
+            if (title == issue) {
+              //alert("MARK COMPLETE");
+              MarkComplete(id, usersTrying[i].username);
+            } else {
+              alert("Error : Issue Title did not matched");
+              return;
+            }
+          } else {
+            alert("Error : Username did not Matched with your username");
             return;
           }
-        }
-        else{
-          alert("Error : Username did not Matched with your username");
+        } else {
+          alert("Error : Status is Open");
           return;
         }
-      }
-      else{
-        alert("Error : Status is Open");
+        //MarkComplete(id,usersTrying[i].username);
         return;
       }
-      //MarkComplete(id,usersTrying[i].username);
-      return;
     }
-  }
-  }
+  };
 
   const handleSubmit = async (e) => {
     console.log(prno);
     //////////
     // https://github.com/Bhushan21z/testrepo
-    const repo = repourl.slice(19,);
+    const repo = repourl.slice(19);
     console.log(repo);
-    await axios.get(`https://api.github.com/repos/${repo}/pulls/${prno}`)
-    .then(response => {
-      console.log(response.data);
-      // setState(response.data.state);
-      // setTitle(response.data.title);
-      // setUser(response.data.user.login);
-      // console.log(state,title,user);
-      anotherfunc(response.data.state,response.data.title,response.data.user.login);
-    })
-    .catch(error => {
+    await axios
+      .get(`https://api.github.com/repos/${repo}/pulls/${prno}`)
+      .then((response) => {
+        console.log(response.data);
+        // setState(response.data.state);
+        // setTitle(response.data.title);
+        // setUser(response.data.user.login);
+        // console.log(state,title,user);
+        anotherfunc(
+          response.data.state,
+          response.data.title,
+          response.data.user.login
+        );
+      })
+      .catch((error) => {
         console.log(error);
-    });
+      });
 
     /////////
     // e.preventDefault();
     console.log("mark complete not called");
-  
   };
 
   return (
@@ -206,22 +212,21 @@ Button */}
           </Typography>
         </Grid>
 
-        <Typography
-          color="#78bbe7"
-          sx={{
-            fontsize: "14px",
-            textDecoration: "underline",
-          }}
-        >
-          <AddLinkIcon
+        <Link href={repourl} target="_blank">
+          <Typography
             sx={{
-              fontSize: "25px",
-              mr: "5px",
-              color: "#78bbe7",
+              fontsize: "14px",
             }}
-          />
-          {repourl.slice(19)}
-        </Typography>
+          >
+            <AddLinkIcon
+              sx={{
+                fontSize: "25px",
+                mr: "5px",
+              }}
+            />
+            {repourl.slice(19)}
+          </Typography>
+        </Link>
         <Typography
           color="white"
           sx={{
@@ -240,8 +245,13 @@ Button */}
           >
             Description
           </Typography>
-          {/* {desc} */}
-          {desc.slice(0,150)} ....read more
+          {desc.slice(0, 150)} ....
+          <Link href={`${repourl}/issues`} target="_blank">
+            <Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+              Read More
+            </Typography>
+          </Link>
+          {/* lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla */}
         </Typography>
 
         <Grid
@@ -261,7 +271,6 @@ Button */}
         </Grid>
         <Divider sx={{ mt: "10px", backgroundColor: "white" }} />
       </CardContent>
-
 
       <CardActions>
         <Grid
@@ -289,7 +298,7 @@ Button */}
               color: "black",
               borderRadius: "5px",
               padding: "5px",
-              fontSize: "14px",
+              fontSize: "10px",
             }}
           >
             Mark Complete
@@ -297,63 +306,6 @@ Button */}
         </Grid>
       </CardActions>
     </Card>
-    // <div
-    //   className="bg-[#181918] m-4 flex flex-1
-    //   2xl:min-w-[450px]
-    //   2xl:max-w-[500px]
-    //   sm:min-w-[270px]
-    //   sm:max-w-[300px]
-    //   min-w-full
-    //   flex-col p-3 rounded-md hover:shadow-2xl"
-    // >
-    //   <div className="flex flex-col items-center w-full mt-3">
-    //     <div className="display-flex justify-start w-full mb-6 p-2">
-    //       <a
-    //         href={`https://ropsten.etherscan.io/address/${Issuer}`}
-    //         target="_blank"
-    //         rel="noreferrer"
-    //       >
-    //         <p className="text-white text-base">
-    //           From: {shortenAddress(Issuer)}
-    //         </p>
-    //       </a>
-    //       <p className="text-white text-base">Amount: {amount} ETH</p>
-    //       {username && (
-    //         <>
-    //           <br />
-    //           <p className="text-white text-base">
-    //             Github Username: {username}
-    //           </p>
-    //         </>
-    //       )}
-    //       {repourl && (
-    //         <>
-    //           <br />
-    //           <p className="text-white text-base">Github Repo Url: {repourl}</p>
-    //         </>
-    //       )}
-    //       {issue && (
-    //         <>
-    //           <br />
-    //           <p className="text-white text-base">Github Issue: {issue}</p>
-    //         </>
-    //       )}
-    //       {desc && (
-    //         <>
-    //           <br />
-    //           <p className="text-white text-base">Issue Description: {desc}</p>
-    //         </>
-    //       )}
-    //     </div>
-    //     <button
-    //       type="button"
-    //       onClick={handleSubmit}
-    //       className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
-    //     >
-    //       Mark Complete
-    //     </button>
-    //   </div>
-    // </div>
   );
 };
 

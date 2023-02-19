@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,9 +8,10 @@ import { CardActions, Divider, Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import PaidIcon from "@mui/icons-material/Paid";
-import { Button } from "@mui/material";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+import { Button, Link } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import axios from "axios";
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
     placeholder={placeholder}
@@ -18,9 +19,33 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
     // step="0.0001"
     value={value}
     onChange={(e) => handleChange(e, name)}
-    className="my-2 rounded-sm p-2  bg-transparent text-black  text-sm"
+    className="my-2 rounded-sm p-2  bg-transparent text-white  text-sm"
   />
 );
+
+// const tags = () => {
+//   const [tags, setTags] = useState([]);
+//   const [isError, setIsError] = useState("");
+//   const repo = repourl.slice(19);
+
+//   // using Async Await
+//   const getTags = async () => {
+//     await axios
+//       .get(`https://api.github.com/repos/${repo}`)
+//       .then((response) => {
+//         console.log(response.data);
+//         setTags(response.data.topics);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   };
+
+//   // NOTE:  calling the function
+//   useEffect(() => {
+//     getTags();
+//   }, []);
+// };
 
 const IssueCard = ({
   id,
@@ -51,6 +76,33 @@ const IssueCard = ({
   console.log(currentAccount);
   console.log(usersTrying.length);
   const usertry = usersTrying.length;
+
+  // -----------------------------------------------------
+
+  const [tags, setTags] = useState([]);
+  const [isError, setIsError] = useState("");
+  const repo = repourl.slice(19);
+
+  // using Async Await
+  const getTags = async () => {
+    console.log("getTags");
+    await axios
+      .get(`https://api.github.com/repos/${repo}`)
+      .then((response) => {
+        console.log(response.data);
+        setTags(response.data.topics);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // NOTE:  calling the function
+  useEffect(() => {
+    getTags();
+  }, []);
+  // --------------------------------------------------
+  console.log(tags);
 
   const handleSubmit = (e) => {
     const { tryusername } = tryFormData;
@@ -103,15 +155,6 @@ const IssueCard = ({
         title="green iguana"
       />
       <CardContent>
-        {/* Url
-Username
-Issue title
-Desc.
-Amount
-Users trying
-
-Form
-Button */}
         <Grid
           container
           xs={12}
@@ -154,23 +197,29 @@ Button */}
             {username}
           </Typography>
         </Grid>
-
-        <Typography
-          color="#78bbe7"
-          sx={{
-            fontsize: "14px",
-            textDecoration: "underline",
-          }}
-        >
-          <AddLinkIcon
-            sx={{
-              fontSize: "25px",
-              mr: "5px",
-              color: "#78bbe7",
-            }}
+        {tags.map((tag, i) => (
+          <Chip
+            key={i}
+            sx={{ m: "5px", color: "white" }}
+            label={tag}
+            variant="outlined"
           />
-          {repourl.slice(19)}
-        </Typography>
+        ))}
+        <Link href={repourl} target="_blank">
+          <Typography
+            sx={{
+              fontsize: "14px",
+            }}
+          >
+            <AddLinkIcon
+              sx={{
+                fontSize: "25px",
+                mr: "5px",
+              }}
+            />
+            {repourl.slice(19)}
+          </Typography>
+        </Link>
         <Typography
           color="white"
           sx={{
@@ -189,8 +238,12 @@ Button */}
           >
             Description
           </Typography>
-          {desc.slice(0,150)} ....read more
-          {/* lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla */}
+          {desc.slice(0, 150)} ....
+          <Link href={`${repourl}/issues`} target="_blank">
+            <Typography sx={{ fontSize: "14px", fontWeight: "bold" }}>
+              Read More
+            </Typography>
+          </Link>
         </Typography>
 
         <Grid
@@ -223,11 +276,8 @@ Button */}
             alignItems: "center",
           }}
         >
-          {/* <Typography variant="body2" color="white">
-            Try this issue
-          </Typography> */}
           <Input
-            placeholder="Username"
+            placeholder="Github Username"
             name="tryusername"
             type="text"
             handleChange={handleChange2}
