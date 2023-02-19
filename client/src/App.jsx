@@ -1,14 +1,5 @@
 import React, { useContext } from "react";
-import {
-  Navbar,
-  Welcome,
-  Footer,
-  Services,
-  AllIssues,
-  MyIssues,
-  MyTryingIssues,
-  MyCompletedIssues,
-} from "./components";
+import { Navbar, Welcome, Footer } from "./components";
 import Tabs from "./components/Tabs";
 import Working from "./components/working";
 import { GithubContext } from "./context/GithubContext";
@@ -28,9 +19,7 @@ const App = () => {
             <Welcome />
             <Working />
           </div>
-
           <Tabs />
-          {/* <Loader2 /> */}
           <Footer />
         </>
       )}

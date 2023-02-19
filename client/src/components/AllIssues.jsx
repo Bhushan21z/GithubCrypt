@@ -11,7 +11,8 @@ import PaidIcon from "@mui/icons-material/Paid";
 import { Button, Link } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import axios from "axios";
-
+import Lottie from "react-lottie";
+import * as animationData from "../Assets/notfound.json";
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
     placeholder={placeholder}
@@ -285,13 +286,20 @@ const IssueCard = ({
 };
 
 const Issues = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   const { issues, currentAccount } = useContext(GithubContext);
   return (
     <Grid
       container
       xs={12}
       sx={{
-        display: "flex",
         height: "auto",
         width: "100%",
       }}
@@ -316,9 +324,14 @@ const Issues = () => {
           ))}
         </Grid>
       ) : (
-        <h3 className="text-white text-3xl text-center my-2">
-          Connect your account to see the Latest Issues
-        </h3>
+        <Grid item xs={12}>
+          <Typography
+            sx={{ fontSize: "20px", color: "white", textAlign: "center" }}
+          >
+            Please connect your wallet to see the issues
+          </Typography>
+          <Lottie options={defaultOptions} />
+        </Grid>
       )}
     </Grid>
   );

@@ -18,7 +18,8 @@ import useFetch from "../hooks/useFetch";
 //import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
 import axios from "axios";
-
+import Lottie from "react-lottie";
+import * as animationData from "../Assets/notfound.json";
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
     placeholder={placeholder}
@@ -311,7 +312,14 @@ Button */}
 
 const MyTryingIssues = () => {
   const { currentAccount, myTryingIssues } = useContext(GithubContext);
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   return (
     <Grid
       container
@@ -359,9 +367,14 @@ const MyTryingIssues = () => {
           </Grid>
         </Grid>
       ) : (
-        <h3 className="text-white text-3xl text-center my-2">
-          Connect your account to see your Trying Issues
-        </h3>
+        <Grid item xs={12}>
+          <Typography
+            sx={{ fontSize: "20px", color: "white", textAlign: "center" }}
+          >
+            Please connect your wallet to see the issues
+          </Typography>
+          <Lottie options={defaultOptions} />
+        </Grid>
       )}
     </Grid>
   );

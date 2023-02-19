@@ -2,7 +2,6 @@ import React from "react";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import logo from "../../images/logo.png";
 
 const Footer = () => (
   <div className="w-full flex md:justify-center justify-between items-center flex-col p-4 bg-[#131516]  ">

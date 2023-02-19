@@ -11,6 +11,8 @@ import { CardActions, Divider, Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import Lottie from "react-lottie";
+import * as animationData from "../Assets/notfound.json";
 const IssueCard = ({
   id,
   Issuer,
@@ -194,7 +196,14 @@ Button */}
 
 const MyCompletedIssues = () => {
   const { currentAccount, myCompletedIssues } = useContext(GithubContext);
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   return (
     <Grid
       container
@@ -225,9 +234,14 @@ const MyCompletedIssues = () => {
           ))}
         </Grid>
       ) : (
-        <h3 className="text-white text-3xl text-center my-2">
-          Connect your account to see the your Completed Issues
-        </h3>
+        <Grid item xs={12}>
+          <Typography
+            sx={{ fontSize: "20px", color: "white", textAlign: "center" }}
+          >
+            Please connect your wallet to see the issues
+          </Typography>
+          <Lottie options={defaultOptions} />
+        </Grid>
       )}
     </Grid>
   );
