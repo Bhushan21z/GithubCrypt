@@ -29,7 +29,7 @@ const Navbar = () => {
             display: "flex",
             flexDirection: "row",
             fontSize: "2rem",
-            color:"white"
+            color: "white",
           }}
         >
           <FaGithubAlt
@@ -42,17 +42,20 @@ const Navbar = () => {
         </Typography>
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
-        <Typography
-          sx={{
-            color: "black",
-            fontSize: "20px",
-            backgroundColor: "#E9ECEF",
-            borderRadius: "0.5rem",
-            padding: "0.5rem",
-          }}
-        >
-          {shortenAddress(currentAccount)}
-        </Typography>
+        {currentAccount && (
+          <Typography
+            sx={{
+              color: "black",
+              fontSize: "20px",
+              backgroundColor: "#E9ECEF",
+              borderRadius: "0.5rem",
+              padding: "0.5rem",
+            }}
+          >
+            {shortenAddress(currentAccount)}
+          </Typography>
+        )}
+
         {!currentAccount && (
           <button
             type="button"
