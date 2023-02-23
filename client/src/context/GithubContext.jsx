@@ -38,7 +38,8 @@ export const TransactionsProvider = ({ children }) => {
   const [myIssues, setMyIssues] = useState([]);
   const [myTryingIssues, setMyTryingIssues] = useState([]);
   const [myCompletedIssues, setMyCompletedIssues] = useState([]);
-  const userAddress = ethereum.selectedAddress;
+  //const userAddress = ethereum.selectedAddress;
+  const userAddress = currentAccount;
 
   const checkAdd = (add) => {
     if (add === emptyadd) {
