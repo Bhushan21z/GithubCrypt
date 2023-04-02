@@ -160,7 +160,7 @@ const IssueCard = ({
         >
           <Typography color="white" fontSize="14px">
             <PaidIcon sx={{ fontSize: "20px" }} /> {amount}
-            ETH
+            SHM
           </Typography>
         </Grid>
         <Divider sx={{ mt: "10px", backgroundColor: "white" }} />

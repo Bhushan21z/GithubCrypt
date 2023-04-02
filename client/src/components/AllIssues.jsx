@@ -235,7 +235,7 @@ const IssueCard = ({
         >
           <Typography color="white" fontSize="14px">
             <PaidIcon sx={{ fontSize: "20px" }} /> {amount}
-            ETH
+            SHM
           </Typography>
           <Typography color="white" fontSize="14px">
             Users trying:{usertry}{" "}

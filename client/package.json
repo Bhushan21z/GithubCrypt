@@ -25,7 +25,9 @@
     "react-icons": "^4.3.1",
     "react-lottie": "^1.2.3",
     "react-router": "^6.8.1",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.0",
+    "minimist": "^1.2.5",
+    "web3.storage": "^3.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.0",

@@ -169,7 +169,7 @@ const Working = () => {
             handleChange={handleChange}
           />
           <Input
-            placeholder="Amount (ETH)"
+            placeholder="Amount (SHM)"
             name="amount"
             type="number"
             handleChange={handleChange}
